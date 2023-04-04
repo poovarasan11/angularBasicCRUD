@@ -1,0 +1,48 @@
+{
+  "posts": [
+    {
+      "id": 3,
+      "firstName": "aaaa222224",
+      "lastName": "r",
+      "email": "111qa2424",
+      "mobile": "1233242",
+      "salary": "123433333"
+    },
+    {
+      "id": 7,
+      "firstName": "ravi",
+      "lastName": "g",
+      "email": "ravi@gmail.com",
+      "mobile": "7622349072",
+      "salary": "30000"
+    },
+    {
+      "id": 8,
+      "firstName": "mani",
+      "lastName": "a",
+      "email": "mani@gmail.com",
+      "mobile": "9563228712",
+      "salary": "30000"
+    },
+    {
+      "id": 9,
+      "firstName": "poo",
+      "lastName": "s",
+      "email": "poo@gmail.com",
+      "mobile": "7633736383",
+      "salary": "23000"
+    },
+    {
+      "id": 10,
+      "firstName": "poovarasan",
+      "lastName": "s",
+      "email": "jdld",
+      "mobile": 9067262272,
+      "salary": 120000
+    }
+  ],
+  "comments": [],
+  "profile": {
+    "name": "typicode"
+  }
+}

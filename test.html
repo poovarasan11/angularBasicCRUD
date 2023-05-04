@@ -1,0 +1,51 @@
+<div class="container page-body-wrapper px-0">
+    <div class="main-panel">
+        <div class="content-wrapper pb-0">
+            <h6 class="head-title">Masters</h6>
+            <!--            
+            <div class="bg-white p-3 mt-2">
+                <form [formGroup]="applicationForm" (ngSubmit)='onSubmit(applicationForm.value)'> -->
+
+            <div class="bg-white p-3 my-2">
+                <h6>Add Category</h6>
+                <form [formGroup]="CatFrom" (ngSubmit)="CatSubmit(CatFrom.value)">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-12 my-2">
+                            <label class="form-label">Category</label>
+                            <input appBlockCopyPaste type="text" maxlength="20" (keypress)="name_validation($event)"
+                                formControlName="catgory" class="form-control"
+                                [ngClass]="{ 'is-invalid': cformsubmit && c.catgory.errors }"
+                                style="background-color: white;">
+                            <div *ngIf="cformsubmit && c.catgory.errors" class="invalid-feedback"
+                                style="position: absolute;">
+                                <div *ngIf="c.catgory.errors.required" style="font-size: 12px; font-weight: 600;">
+                                    Category is required</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 d-flex justify-content-center my-2">
+
+                            <button type="submit" class="btn btn-sm btn-success mx-1">Submit</button>
+                            <button (click)="reset()" class="btn btn-sm btn-secondary mx-1">Reset</button>
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+
+            <!-- </form>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+
+
+CatSubmit(formvalue:any){
+this.cformsubmit=true;
+if(this.CatFrom.invalid){
+return;
+}
+get c(){
+return this.CatFrom.controls;
+}

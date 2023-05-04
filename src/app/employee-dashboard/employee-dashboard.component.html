@@ -1,4 +1,4 @@
-<nav class="navbar navbar-light bg-primary">
+<nav class="navbar navbar-light bg-secondary ">
     <div class="container-fluid">
         <h1 style="color:rgb(247, 242, 242)">Angular</h1>
         <div class="d-flex">
@@ -8,39 +8,51 @@
         </div>
     </div>
 </nav>
-
-<table class="table mt-3">
-
-    <thead>
-        <tr>
-            <th scope="col">Employee ID</th>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">Email ID</th>
-            <th scope="col">Mobbile No.</th>
-            <th scope="col">Salary</th>
-            <th scope="col">Action</th>
-        </tr>
-    </thead>
+<!-- <div class="input-group mb-4 mt-3">
+    <input type="text" class="form-control" id="advanced-search-input" placeholder="Search Name" />
+    <button class="btn btn-primary" id="advanced-search-button" type="button">
+        <i class="fa fa-search"></i>
+    </button>
+</div> -->
+<input type="text" (change)="getName(name.value)" #name /><br>
+<input type="file" id='image' class="btn btn-outline-dark mt-3" (change)="getFile($event)" /><br>
+<!-- <input type="button" value="Upload file" /> -->
 
 
-    <tbody>
-        <tr *ngFor="let row of employeeData">
-            <td>{{row.id}}</td>
-            <td>{{row.firstName}}</td>
-            <td>{{row.lastName}}</td>
-            <td>{{row.email}}</td>
-            <td>{{row.mobile}}</td>
-            <td>{{row.salary}}</td>
-            <td>
-                <button (click)="onEdit(row)" class="btn btn-info" type="button" data-bs-toggle="modal"
-                    data-bs-target="#exampleModal">Edit</button>
-                <button (click)="deleteEmployee(row)" class="btn btn-danger mx-3">Delete</button>
-            </td>
+<div class="fullTable">
+    <table class="table custom-table" id="searchAllDataList" datatable [dtOptions]="dtOptions">
 
-        </tr>
-    </tbody>
-</table>
+        <thead>
+            <tr class="tableRow">
+                <th scope="col">Employee ID</th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+                <th scope="col">Email ID</th>
+                <th scope="col">Mobbile No.</th>
+                <th scope="col">Salary</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+            <tr *ngFor="let row of employeeData">
+                <td>{{row.id}}</td>
+                <td>{{row.firstName}}</td>
+                <td>{{row.lastName}}</td>
+                <td>{{row.email}}</td>
+                <td>{{row.mobile}}</td>
+                <td>{{row.salary}}</td>
+                <td>
+                    <button (click)="onEdit(row)" class="btn btn-info" type="button" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">Edit</button>
+                    <button (click)="deleteEmployee(row)" class="btn btn-danger mx-3">Delete</button>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+</div>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -50,36 +62,83 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form [formGroup]="formValue">
+                <form [formGroup]="formValue" (ngSubmit)="onSubmit()">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">First Name</label>
-                        <input type="text" formControlName="firstName" class="form-control" id="exampleInputEmail1"
-                            aria-describedby="emailHelp" required>
-
+                        <input type="text" (keypress)="lettersOnly($event)" formControlName="firstName"
+                            class="form-control " id="exampleInputEmail1" aria-describedby="emailHelp"
+                            placeholder="Your name" required minlength="1" maxlength="250"
+                            [class.is-invalid]="firstName.invalid && (firstName.dirty || firstName.touched)">
+                        <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)"
+                            class="invalid-feedback">
+                            <div *ngIf="firstName.errors?.['required']">
+                                This field is required.
+                            </div>
+                            <div *ngIf="firstName.errors?.['minlength']">
+                                This field must have at least 1 character.
+                            </div>
+                            <div *ngIf="firstName.errors?.['maxlength']">
+                                This field must have at most 250 characters.
+                            </div>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Last Name</label>
-                        <input type="text" formControlName="lastName" class="form-control" id="exampleInputPassword1" required>
+                        <input type="text" (keypress)="lettersOnly($event)" formControlName="lastName"
+                            class="form-control " id="exampleInputEmail1" aria-describedby="emailHelp"
+                            placeholder="Your lastname" required minlength="1" maxlength="50"
+                            [class.is-invalid]="lastName.invalid && (lastName.dirty || lastName.touched)">
+                        <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="invalid-feedback">
+                            <div *ngIf="lastName.errors?.['required']">
+                                This field is required.
+                            </div>
+                            <div *ngIf="lastName.errors?.['minlength']">
+                                This field must have at least 1 character.
+                            </div>
+                            <div *ngIf="lastName.errors?.['maxlength']">
+                                This field must have at most 50 characters.
+                            </div>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Email Id</label>
-                        <input type="email" formControlName="email" class="form-control" id="exampleInputPassword1" required>
+                        <input type="email" formControlName="email" class="form-control" id="exampleInputPassword1"
+                            required placeholder="your-name@provider.com" required minlength="1" maxlength="250"
+                            [class.is-invalid]="email.invalid && (email.dirty || email.touched)">
+                        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="invalid-feedback">
+                            <div *ngIf="email.errors?.['required']">
+                                This field is required.
+                            </div>
+                            <div *ngIf="email.errors?.['minlength']">
+                                This field must have at least 1 character.
+                            </div>
+                            <div *ngIf="email.errors?.['maxlength']">
+                                This field must have at most 250 characters.
+                            </div>
+                            <div
+                                *ngIf="!email.errors?.['required'] && !email.errors?.['minlength'] && !email.errors?.['maxlength'] && email.errors?.['emailValidator']">
+                                Invalid email format.
+                            </div>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Mobile Number</label>
-                        <input type="number" formControlName="mobile" class="form-control" id="exampleInputPassword1" required>
+                        <input type="text" formControlName="mobile" class="form-control" id="exampleInputPassword1"
+                            required maxlength="10" (keypress)="omit_special_char_spchar($event)">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Salary</label>
-                        <input type="number" formControlName="salary" class="form-control" id="exampleInputPassword1" required>
-                    </div>
+                        <input type="number" (keypress)="numbersOnly($event)" formControlName="salary"
+                            class="form-control" id="exampleInputPassword1" required>
+                    </div><br>
+                    <input type="file" id='image' class="" (change)="getFile($event)" /><br>
 
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" id="cancel" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" *ngIf="showAdd" (click)="postEmployeeDetails()"
-                    class="btn btn-primary">Add</button>
+                <button type="submit" *ngIf="showAdd" (click)="postEmployeeDetails()" class="btn btn-primary"
+                    required>Ad</button>
                 <button type="button" *ngIf='showUpdate' (click)="updateEmployeeDetails()"
                     class="btn btn-primary">Update</button>
 

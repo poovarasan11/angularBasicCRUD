@@ -1,0 +1,11 @@
+.tableRow{
+    background-color: rgb(232, 229, 229);
+}
+.fullTable{
+    width: 98%;
+    height: 100%;
+    margin-top: 2%;
+    border-color: black;
+    margin-left: 1%;
+    /* margin-right: 2%; */
+}
